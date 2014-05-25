@@ -3,6 +3,6 @@ package graphcalc;
 public interface CalcFunction
    {
 
-   public abstract double getY( double x );
+   public double getY( double a, double b );
 
 }

@@ -25,7 +25,7 @@ public class GraphCalcPanel extends JPanel implements MouseInputListener, Proper
     static final int MARK_LENGTH = 10;
     //static final Integer RESOLUTION = 100;
     
-    private static CalcFunction function;
+    private static CalcFunctionFramework function;
     private static double scale;
     private static Point origin;
     private static boolean graphing;
@@ -55,12 +55,12 @@ public class GraphCalcPanel extends JPanel implements MouseInputListener, Proper
         addPropertyChangeListener( this );
     }
     
-    public void setFunction( CalcFunction newFunc )
+    public void setFunction( CalcFunctionFramework newFunc )
          {
          function = newFunc;
          }
     
-    public CalcFunction getFunction()
+    public CalcFunctionFramework getFunction()
          {
          return function;
          }

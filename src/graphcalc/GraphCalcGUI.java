@@ -6,17 +6,34 @@
 
 package graphcalc;
 
+import java.awt.Color;
+import java.lang.Math;
+import java.util.*;
+import javax.swing.JColorChooser;
+
 /**
  *
  * @author admin
  */
 public class GraphCalcGUI extends javax.swing.JFrame {
 
+    private ArrayList<CalcFunctionFramework> functions;
+    private int index;
+    private boolean numberMode;
+    private double scale;
+    
     /**
      * Creates new form GraphCalcGUI
      */
     public GraphCalcGUI() {
         initComponents();
+        scale = 10.0;
+        index = 0;
+        numberMode = true;
+        functions = new ArrayList();
+        CalcFunctionFramework newfunction = new CalcFunctionFramework( (a, b) -> 0.0, (a, b) -> "0.0" );
+        functions.add( newfunction );
+        updateFunction();
     }
 
     /**
@@ -28,7 +45,7 @@ public class GraphCalcGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        graphCalcPanel1 = new graphcalc.GraphCalcPanel();
+        mainGraphCalcPanel = new graphcalc.GraphCalcPanel();
         calcField = new javax.swing.JTextField();
         calcPanel = new javax.swing.JPanel();
         button1 = new javax.swing.JButton();
@@ -43,14 +60,14 @@ public class GraphCalcGUI extends javax.swing.JFrame {
         button8 = new javax.swing.JButton();
         button9 = new javax.swing.JButton();
         buttonTimes = new javax.swing.JButton();
-        buttonReciprocal = new javax.swing.JButton();
+        buttonX = new javax.swing.JButton();
         button0 = new javax.swing.JButton();
         buttonPoint = new javax.swing.JButton();
         buttonDividedBy = new javax.swing.JButton();
         buttonSin = new javax.swing.JButton();
         buttonCos = new javax.swing.JButton();
         buttonTan = new javax.swing.JButton();
-        buttonX = new javax.swing.JButton();
+        buttonEquals = new javax.swing.JButton();
         buttonSec = new javax.swing.JButton();
         buttonCsc = new javax.swing.JButton();
         buttonCot = new javax.swing.JButton();
@@ -63,122 +80,317 @@ public class GraphCalcGUI extends javax.swing.JFrame {
         buttonAcsc = new javax.swing.JButton();
         buttonAcot = new javax.swing.JButton();
         buttonExp = new javax.swing.JButton();
+        buttonClear = new javax.swing.JButton();
+        buttonColor = new javax.swing.JButton();
+        buttonZoomIn = new javax.swing.JButton();
+        buttonZoomOut = new javax.swing.JButton();
+        functionLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout graphCalcPanel1Layout = new javax.swing.GroupLayout(graphCalcPanel1);
-        graphCalcPanel1.setLayout(graphCalcPanel1Layout);
-        graphCalcPanel1Layout.setHorizontalGroup(
-            graphCalcPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout mainGraphCalcPanelLayout = new javax.swing.GroupLayout(mainGraphCalcPanel);
+        mainGraphCalcPanel.setLayout(mainGraphCalcPanelLayout);
+        mainGraphCalcPanelLayout.setHorizontalGroup(
+            mainGraphCalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 450, Short.MAX_VALUE)
         );
-        graphCalcPanel1Layout.setVerticalGroup(
-            graphCalcPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        mainGraphCalcPanelLayout.setVerticalGroup(
+            mainGraphCalcPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
         calcField.setEditable(false);
         calcField.setBackground(new java.awt.Color(255, 255, 255));
         calcField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        calcField.setText("0");
 
         calcPanel.setLayout(new java.awt.GridLayout(8, 4));
 
         button1.setText("1");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
         calcPanel.add(button1);
 
         button2.setText("2");
+        button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button2ActionPerformed(evt);
+            }
+        });
         calcPanel.add(button2);
 
         button3.setText("3");
+        button3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button3ActionPerformed(evt);
+            }
+        });
         calcPanel.add(button3);
 
         buttonPlus.setText("+");
+        buttonPlus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPlusActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonPlus);
 
         button4.setText("4");
+        button4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button4ActionPerformed(evt);
+            }
+        });
         calcPanel.add(button4);
 
         button5.setText("5");
+        button5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button5ActionPerformed(evt);
+            }
+        });
         calcPanel.add(button5);
 
         button6.setText("6");
+        button6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button6ActionPerformed(evt);
+            }
+        });
         calcPanel.add(button6);
 
         buttonMinus.setText("-");
+        buttonMinus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonMinusActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonMinus);
 
         button7.setText("7");
+        button7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button7ActionPerformed(evt);
+            }
+        });
         calcPanel.add(button7);
 
         button8.setText("8");
+        button8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button8ActionPerformed(evt);
+            }
+        });
         calcPanel.add(button8);
 
         button9.setText("9");
+        button9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button9ActionPerformed(evt);
+            }
+        });
         calcPanel.add(button9);
 
         buttonTimes.setText("*");
+        buttonTimes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonTimesActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonTimes);
 
-        buttonReciprocal.setText("1/x");
-        calcPanel.add(buttonReciprocal);
+        buttonX.setText("<html><i>x</i></html>");
+        buttonX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonXActionPerformed(evt);
+            }
+        });
+        calcPanel.add(buttonX);
 
         button0.setText("0");
+        button0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button0ActionPerformed(evt);
+            }
+        });
         calcPanel.add(button0);
 
         buttonPoint.setText(".");
+        buttonPoint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPointActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonPoint);
 
         buttonDividedBy.setText("/");
+        buttonDividedBy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonDividedByActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonDividedBy);
 
         buttonSin.setText("sin");
+        buttonSin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSinActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonSin);
 
         buttonCos.setText("cos");
+        buttonCos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCosActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonCos);
 
         buttonTan.setText("tan");
+        buttonTan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonTanActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonTan);
 
-        buttonX.setText("<html><i>x</i></html>");
-        calcPanel.add(buttonX);
+        buttonEquals.setText("=");
+        buttonEquals.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonEqualsActionPerformed(evt);
+            }
+        });
+        calcPanel.add(buttonEquals);
 
         buttonSec.setText("sec");
+        buttonSec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSecActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonSec);
 
         buttonCsc.setText("csc");
+        buttonCsc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCscActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonCsc);
 
         buttonCot.setText("cot");
+        buttonCot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCotActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonCot);
 
         buttonLn.setText("ln");
+        buttonLn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonLnActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonLn);
 
         buttonAsin.setText("Asin");
+        buttonAsin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAsinActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonAsin);
 
         buttonAcos.setText("Acos");
+        buttonAcos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAcosActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonAcos);
 
         buttonAtan.setText("Atan");
+        buttonAtan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAtanActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonAtan);
 
         buttonPower.setText("<html><i>x</i><sup>y</sup></html>");
+        buttonPower.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonPowerActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonPower);
 
         buttonAsec.setText("Asec");
+        buttonAsec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAsecActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonAsec);
 
         buttonAcsc.setText("Acsc");
+        buttonAcsc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAcscActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonAcsc);
 
         buttonAcot.setText("Acot");
+        buttonAcot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonAcotActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonAcot);
 
         buttonExp.setText("<html>e<sup>y</sup></html>");
+        buttonExp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonExpActionPerformed(evt);
+            }
+        });
         calcPanel.add(buttonExp);
+
+        buttonClear.setText("Clear");
+        buttonClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonClearActionPerformed(evt);
+            }
+        });
+
+        buttonColor.setText("Color");
+        buttonColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonColorActionPerformed(evt);
+            }
+        });
+
+        buttonZoomIn.setText("Zoom In");
+        buttonZoomIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonZoomInActionPerformed(evt);
+            }
+        });
+
+        buttonZoomOut.setText("Zoom Out");
+        buttonZoomOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonZoomOutActionPerformed(evt);
+            }
+        });
+
+        functionLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        functionLabel.setText("<html><i>y</i> = 0.0</html>");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -186,24 +398,331 @@ public class GraphCalcGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(buttonClear)
+                            .addComponent(buttonZoomIn))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(buttonColor))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(buttonZoomOut))))
                     .addComponent(calcField)
-                    .addComponent(calcPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(calcPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(functionLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(graphCalcPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(mainGraphCalcPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(graphCalcPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainGraphCalcPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(calcField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(calcPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 208, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(functionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonZoomIn)
+                    .addComponent(buttonZoomOut))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonClear)
+                    .addComponent(buttonColor))
+                .addGap(64, 120, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        updateDigit( "1" );
+        updateFunction();
+    }//GEN-LAST:event_button1ActionPerformed
+
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+        updateDigit( "2" );
+        updateFunction();
+    }//GEN-LAST:event_button2ActionPerformed
+
+    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+        updateDigit( "3" );
+        updateFunction();
+    }//GEN-LAST:event_button3ActionPerformed
+
+    private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed
+        updateDigit( "4" );
+        updateFunction();
+    }//GEN-LAST:event_button4ActionPerformed
+
+    private void button5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button5ActionPerformed
+        updateDigit( "5" );
+        updateFunction();
+    }//GEN-LAST:event_button5ActionPerformed
+
+    private void button6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button6ActionPerformed
+        updateDigit( "6" );
+        updateFunction();
+    }//GEN-LAST:event_button6ActionPerformed
+
+    private void button7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button7ActionPerformed
+        updateDigit( "7" );
+        updateFunction();
+    }//GEN-LAST:event_button7ActionPerformed
+
+    private void button8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button8ActionPerformed
+        updateDigit( "8" );
+        updateFunction();
+    }//GEN-LAST:event_button8ActionPerformed
+
+    private void button9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button9ActionPerformed
+        updateDigit( "9" ); 
+        updateFunction();
+    }//GEN-LAST:event_button9ActionPerformed
+
+    private void button0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button0ActionPerformed
+        updateDigit( "0" );
+        updateFunction();
+    }//GEN-LAST:event_button0ActionPerformed
+
+    private void buttonPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPlusActionPerformed
+        calcField.setText("");
+        if( index > 0 ) index--;
+        TwoArgumentCalcFunctionFramework tempfunc = new TwoArgumentCalcFunctionFramework( (a,b) -> a + b, (a, b) -> a + " + " + b );
+        tempfunc.setFramework( functions.get( index ), 0 );
+        functions.set( index, tempfunc );
+        CalcFunctionFramework tempfunc2 = new CalcFunctionFramework( (a, b) -> 0.0, (a, b) -> "0.0" );
+        tempfunc.setFramework( tempfunc2, 1 );
+        functions.add( tempfunc2 );
+        index++;
+        updateFunction();
+    }//GEN-LAST:event_buttonPlusActionPerformed
+
+    private void buttonMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMinusActionPerformed
+        calcField.setText("");
+        if( index > 0 ) index--;
+        TwoArgumentCalcFunctionFramework tempfunc = new TwoArgumentCalcFunctionFramework( (a,b) -> a - b, (a, b) -> a + " - " + b );
+        tempfunc.setFramework( functions.get( index ), 0 );
+        functions.set( index, tempfunc );
+        CalcFunctionFramework tempfunc2 = new CalcFunctionFramework( (a, b) -> 0.0, (a, b) -> "0.0" );
+        tempfunc.setFramework( tempfunc2, 1 );
+        functions.add( tempfunc2 );
+        index++;
+        updateFunction();
+    }//GEN-LAST:event_buttonMinusActionPerformed
+
+    private void buttonTimesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTimesActionPerformed
+        calcField.setText("");
+        if( index > 0 ) index--;
+        TwoArgumentCalcFunctionFramework tempfunc = new TwoArgumentCalcFunctionFramework( (a,b) -> a * b, (a, b) -> a + " * " + b );
+        tempfunc.setFramework( functions.get( index ), 0 );
+        functions.set( index, tempfunc );
+        CalcFunctionFramework tempfunc2 = new CalcFunctionFramework( (a, b) -> 0.0, (a, b) -> "0.0" );
+        tempfunc.setFramework( tempfunc2, 1 );
+        functions.add( tempfunc2 );
+        index++;
+        updateFunction();
+    }//GEN-LAST:event_buttonTimesActionPerformed
+
+    private void buttonDividedByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDividedByActionPerformed
+        calcField.setText("");
+        if( index > 0 ) index--;
+        TwoArgumentCalcFunctionFramework tempfunc = new TwoArgumentCalcFunctionFramework( (a,b) -> a / b, (a, b) -> a + " / " + b );
+        tempfunc.setFramework( functions.get( index ), 0 );
+        functions.set( index, tempfunc );
+        CalcFunctionFramework tempfunc2 = new CalcFunctionFramework( (a, b) -> 0.0, (a, b) -> "0.0" );
+        tempfunc.setFramework( tempfunc2, 1 );
+        functions.add( tempfunc2 );
+        index++;
+        updateFunction();
+    }//GEN-LAST:event_buttonDividedByActionPerformed
+
+    private void buttonPointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPointActionPerformed
+        updateDigit( "." );
+        updateFunction();
+    }//GEN-LAST:event_buttonPointActionPerformed
+
+    private void buttonEqualsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonEqualsActionPerformed
+        calcField.setText("");
+        if( index > 0 ) index--;
+    }//GEN-LAST:event_buttonEqualsActionPerformed
+
+    private void buttonXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonXActionPerformed
+        calcField.setText("");
+        functions.get( index ).setFunction( ( a, b ) -> a );
+        functions.get( index ).setLabel( (a, b) -> "<i>x</i>" );
+        updateFunction();
+    }//GEN-LAST:event_buttonXActionPerformed
+
+    private void buttonLnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLnActionPerformed
+        calcField.setText("");
+        OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.log( a ), (a, b) -> "ln( " + a + " )" );
+        tempFunc.setFramework( functions.get( index ) );
+        functions.set( index, tempFunc );
+        updateFunction();
+    }//GEN-LAST:event_buttonLnActionPerformed
+
+    private void buttonPowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPowerActionPerformed
+        calcField.setText("");
+        TwoArgumentCalcFunctionFramework tempfunc = new TwoArgumentCalcFunctionFramework( (a, b) -> Math.pow(a, b), (a, b) -> a + "<sup>" + b + "</sup>" );
+        tempfunc.setFramework( functions.get( index ), 0 );
+        functions.set( index, tempfunc );
+        CalcFunctionFramework tempfunc2 = new CalcFunctionFramework( (a, b) -> 0.0, (a, b) -> "0.0" );
+        tempfunc.setFramework( tempfunc2, 1 );
+        functions.add( tempfunc2 );
+        index++;
+        updateFunction();
+    }//GEN-LAST:event_buttonPowerActionPerformed
+
+    private void buttonExpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExpActionPerformed
+        calcField.setText("");
+        OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.exp( a ), (a, b) -> "e<sup>" + a + "</sup>" );
+        tempFunc.setFramework( functions.get( index ) );
+        functions.set( index, tempFunc );
+        updateFunction();        
+    }//GEN-LAST:event_buttonExpActionPerformed
+
+    private void buttonSinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSinActionPerformed
+        calcField.setText("");
+        OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.sin( a ), (a, b) -> "sin(" + a + ")" );
+        tempFunc.setFramework( functions.get( index ) );
+        functions.set( index, tempFunc );
+        updateFunction();
+    }//GEN-LAST:event_buttonSinActionPerformed
+
+    private void buttonCosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCosActionPerformed
+        calcField.setText("");
+        OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.cos( a ), (a, b) -> "cos(" + a + ")" );
+        tempFunc.setFramework( functions.get( index ) );
+        functions.set( index, tempFunc );
+        updateFunction();
+    }//GEN-LAST:event_buttonCosActionPerformed
+
+    private void buttonTanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTanActionPerformed
+        calcField.setText("");
+        OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.tan( a ), (a, b) -> "tan(" + a + ")" );
+        tempFunc.setFramework( functions.get( index ) );
+        functions.set( index, tempFunc );
+        updateFunction();
+    }//GEN-LAST:event_buttonTanActionPerformed
+
+    private void buttonSecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSecActionPerformed
+        calcField.setText("");
+        OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> 1f / Math.sin( a ), (a, b) -> "sec(" + a + ")" );
+        tempFunc.setFramework( functions.get( index ) );
+        functions.set( index, tempFunc );
+        updateFunction();
+    }//GEN-LAST:event_buttonSecActionPerformed
+
+    private void buttonCscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCscActionPerformed
+        calcField.setText("");
+        OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> 1f / Math.cos( a ), (a, b) -> "csc(" + a + ")" );
+        tempFunc.setFramework( functions.get( index ) );
+        functions.set( index, tempFunc );
+        updateFunction();
+    }//GEN-LAST:event_buttonCscActionPerformed
+
+    private void buttonCotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCotActionPerformed
+        calcField.setText("");
+        OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> 1f / Math.tan( a ), (a, b) -> "cot(" + a + ")" );
+        tempFunc.setFramework( functions.get( index ) );
+        functions.set( index, tempFunc );
+        updateFunction();
+    }//GEN-LAST:event_buttonCotActionPerformed
+
+    private void buttonAsinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAsinActionPerformed
+        calcField.setText("");
+        OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.asin( a ), (a, b) -> "Asin(" + a + ")" );
+        tempFunc.setFramework( functions.get( index ) );
+        functions.set( index, tempFunc );
+        updateFunction();
+    }//GEN-LAST:event_buttonAsinActionPerformed
+
+    private void buttonAcosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcosActionPerformed
+        calcField.setText("");
+        OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.acos( a ), (a, b) -> "Acos(" + a + ")" );
+        tempFunc.setFramework( functions.get( index ) );
+        functions.set( index, tempFunc );
+        updateFunction();
+    }//GEN-LAST:event_buttonAcosActionPerformed
+
+    private void buttonAtanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAtanActionPerformed
+        calcField.setText("");
+        OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.atan( a ), (a, b) -> "Atan(" + a + ")" );
+        tempFunc.setFramework( functions.get( index ) );
+        functions.set( index, tempFunc );
+        updateFunction();
+    }//GEN-LAST:event_buttonAtanActionPerformed
+
+    private void buttonAsecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAsecActionPerformed
+        calcField.setText("");
+        OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> 1f / Math.asin( a ), (a, b) -> "Asec(" + a + ")" );
+        tempFunc.setFramework( functions.get( index ) );
+        functions.set( index, tempFunc );
+        updateFunction();
+    }//GEN-LAST:event_buttonAsecActionPerformed
+
+    private void buttonAcscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcscActionPerformed
+        calcField.setText("");
+        OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> 1f / Math.acos( a ), (a, b) -> "Acsc(" + a + ")" );
+        tempFunc.setFramework( functions.get( index ) );
+        functions.set( index, tempFunc );
+        updateFunction();
+    }//GEN-LAST:event_buttonAcscActionPerformed
+
+    private void buttonAcotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcotActionPerformed
+        calcField.setText("");
+        OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> 1f / Math.atan( a ), (a, b) -> "Acot(" + a + ")" );
+        tempFunc.setFramework( functions.get( index ) );
+        functions.set( index, tempFunc );
+        updateFunction();
+    }//GEN-LAST:event_buttonAcotActionPerformed
+
+    private void buttonZoomInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonZoomInActionPerformed
+        scale /= 2.0;
+        mainGraphCalcPanel.setScale( scale );
+    }//GEN-LAST:event_buttonZoomInActionPerformed
+
+    private void buttonZoomOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonZoomOutActionPerformed
+        scale *= 2.0;
+        mainGraphCalcPanel.setScale( scale );
+    }//GEN-LAST:event_buttonZoomOutActionPerformed
+
+    private void buttonClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonClearActionPerformed
+        scale = 10.0;
+        functions = new ArrayList();
+        CalcFunctionFramework newfunction = new CalcFunctionFramework( (a, b) -> 0.0, (a, b) -> "0.0" );
+        functions.add( newfunction );
+        index = 0;
+        updateFunction();
+    }//GEN-LAST:event_buttonClearActionPerformed
+
+    private void buttonColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonColorActionPerformed
+        Color newColor = JColorChooser.showDialog( rootPane, "Function Color", mainGraphCalcPanel.getColor() );
+        if( newColor != null ) mainGraphCalcPanel.setColor( newColor );
+        mainGraphCalcPanel.repaint();
+    }//GEN-LAST:event_buttonColorActionPerformed
+    
+    private void updateDigit( String digit ) {
+        calcField.setText( calcField.getText() + digit );
+        double x = Double.parseDouble( calcField.getText() );
+        functions.get(index).setFunction(( a, b ) -> x);
+        functions.get(index).setLabel((a, b) -> Double.toString( x ) );
+        updateFunction();
+    }
+    
+    private void updateFunction() {
+        mainGraphCalcPanel.setFunction( functions.get( 0 ) );
+        mainGraphCalcPanel.setGraphing( true );
+        mainGraphCalcPanel.repaint();
+        System.out.println( index );
+        functionLabel.setText( "<html><i>y</i> = " + functions.get( 0 ).getLabelText() + "</html>");
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -220,13 +739,7 @@ public class GraphCalcGUI extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GraphCalcGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GraphCalcGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GraphCalcGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(GraphCalcGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -254,24 +767,29 @@ public class GraphCalcGUI extends javax.swing.JFrame {
     private javax.swing.JButton buttonAsec;
     private javax.swing.JButton buttonAsin;
     private javax.swing.JButton buttonAtan;
+    private javax.swing.JButton buttonClear;
+    private javax.swing.JButton buttonColor;
     private javax.swing.JButton buttonCos;
     private javax.swing.JButton buttonCot;
     private javax.swing.JButton buttonCsc;
     private javax.swing.JButton buttonDividedBy;
+    private javax.swing.JButton buttonEquals;
     private javax.swing.JButton buttonExp;
     private javax.swing.JButton buttonLn;
     private javax.swing.JButton buttonMinus;
     private javax.swing.JButton buttonPlus;
     private javax.swing.JButton buttonPoint;
     private javax.swing.JButton buttonPower;
-    private javax.swing.JButton buttonReciprocal;
     private javax.swing.JButton buttonSec;
     private javax.swing.JButton buttonSin;
     private javax.swing.JButton buttonTan;
     private javax.swing.JButton buttonTimes;
     private javax.swing.JButton buttonX;
+    private javax.swing.JButton buttonZoomIn;
+    private javax.swing.JButton buttonZoomOut;
     private javax.swing.JTextField calcField;
     private javax.swing.JPanel calcPanel;
-    private graphcalc.GraphCalcPanel graphCalcPanel1;
+    private javax.swing.JLabel functionLabel;
+    private graphcalc.GraphCalcPanel mainGraphCalcPanel;
     // End of variables declaration//GEN-END:variables
 }
