@@ -257,7 +257,7 @@ public class GraphCalcGUI extends javax.swing.JFrame {
         });
         calcPanel.add(buttonTan);
 
-        buttonEquals.setText("=");
+        buttonEquals.setText("( )");
         buttonEquals.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonEqualsActionPerformed(evt);
@@ -490,55 +490,23 @@ public class GraphCalcGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_button0ActionPerformed
 
     private void buttonPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPlusActionPerformed
-        calcField.setText("");
-        if( index > 0 ) index--;
         TwoArgumentCalcFunctionFramework tempfunc = new TwoArgumentCalcFunctionFramework( (a,b) -> a + b, (a, b) -> a + " + " + b );
-        tempfunc.setFramework( functions.get( index ), 0 );
-        functions.set( index, tempfunc );
-        CalcFunctionFramework tempfunc2 = new CalcFunctionFramework( (a, b) -> 0.0, (a, b) -> "0.0" );
-        tempfunc.setFramework( tempfunc2, 1 );
-        functions.add( tempfunc2 );
-        index++;
-        updateFunction();
+        twoArgumentButton( tempfunc );
     }//GEN-LAST:event_buttonPlusActionPerformed
 
     private void buttonMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMinusActionPerformed
-        calcField.setText("");
-        if( index > 0 ) index--;
         TwoArgumentCalcFunctionFramework tempfunc = new TwoArgumentCalcFunctionFramework( (a,b) -> a - b, (a, b) -> a + " - " + b );
-        tempfunc.setFramework( functions.get( index ), 0 );
-        functions.set( index, tempfunc );
-        CalcFunctionFramework tempfunc2 = new CalcFunctionFramework( (a, b) -> 0.0, (a, b) -> "0.0" );
-        tempfunc.setFramework( tempfunc2, 1 );
-        functions.add( tempfunc2 );
-        index++;
-        updateFunction();
+        twoArgumentButton( tempfunc );
     }//GEN-LAST:event_buttonMinusActionPerformed
 
     private void buttonTimesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTimesActionPerformed
-        calcField.setText("");
-        if( index > 0 ) index--;
         TwoArgumentCalcFunctionFramework tempfunc = new TwoArgumentCalcFunctionFramework( (a,b) -> a * b, (a, b) -> a + " * " + b );
-        tempfunc.setFramework( functions.get( index ), 0 );
-        functions.set( index, tempfunc );
-        CalcFunctionFramework tempfunc2 = new CalcFunctionFramework( (a, b) -> 0.0, (a, b) -> "0.0" );
-        tempfunc.setFramework( tempfunc2, 1 );
-        functions.add( tempfunc2 );
-        index++;
-        updateFunction();
+        twoArgumentButton( tempfunc );
     }//GEN-LAST:event_buttonTimesActionPerformed
 
     private void buttonDividedByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonDividedByActionPerformed
-        calcField.setText("");
-        if( index > 0 ) index--;
         TwoArgumentCalcFunctionFramework tempfunc = new TwoArgumentCalcFunctionFramework( (a,b) -> a / b, (a, b) -> a + " / " + b );
-        tempfunc.setFramework( functions.get( index ), 0 );
-        functions.set( index, tempfunc );
-        CalcFunctionFramework tempfunc2 = new CalcFunctionFramework( (a, b) -> 0.0, (a, b) -> "0.0" );
-        tempfunc.setFramework( tempfunc2, 1 );
-        functions.add( tempfunc2 );
-        index++;
-        updateFunction();
+        twoArgumentButton( tempfunc );
     }//GEN-LAST:event_buttonDividedByActionPerformed
 
     private void buttonPointActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPointActionPerformed
@@ -559,127 +527,78 @@ public class GraphCalcGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_buttonXActionPerformed
 
     private void buttonLnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLnActionPerformed
-        calcField.setText("");
         OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.log( a ), (a, b) -> "ln( " + a + " )" );
-        tempFunc.setFramework( functions.get( index ) );
-        functions.set( index, tempFunc );
-        updateFunction();
+        oneArgumentButton( tempFunc );
     }//GEN-LAST:event_buttonLnActionPerformed
 
     private void buttonPowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonPowerActionPerformed
-        calcField.setText("");
         TwoArgumentCalcFunctionFramework tempfunc = new TwoArgumentCalcFunctionFramework( (a, b) -> Math.pow(a, b), (a, b) -> a + "<sup>" + b + "</sup>" );
-        tempfunc.setFramework( functions.get( index ), 0 );
-        functions.set( index, tempfunc );
-        CalcFunctionFramework tempfunc2 = new CalcFunctionFramework( (a, b) -> 0.0, (a, b) -> "0.0" );
-        tempfunc.setFramework( tempfunc2, 1 );
-        functions.add( tempfunc2 );
-        index++;
-        updateFunction();
+        twoArgumentButton( tempfunc );
     }//GEN-LAST:event_buttonPowerActionPerformed
 
     private void buttonExpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonExpActionPerformed
-        calcField.setText("");
         OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.exp( a ), (a, b) -> "e<sup>" + a + "</sup>" );
-        tempFunc.setFramework( functions.get( index ) );
-        functions.set( index, tempFunc );
-        updateFunction();        
+        oneArgumentButton( tempFunc );        
     }//GEN-LAST:event_buttonExpActionPerformed
 
     private void buttonSinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSinActionPerformed
-        calcField.setText("");
         OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.sin( a ), (a, b) -> "sin(" + a + ")" );
-        tempFunc.setFramework( functions.get( index ) );
-        functions.set( index, tempFunc );
-        updateFunction();
+        oneArgumentButton( tempFunc );
     }//GEN-LAST:event_buttonSinActionPerformed
 
     private void buttonCosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCosActionPerformed
-        calcField.setText("");
         OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.cos( a ), (a, b) -> "cos(" + a + ")" );
-        tempFunc.setFramework( functions.get( index ) );
-        functions.set( index, tempFunc );
-        updateFunction();
+        oneArgumentButton( tempFunc );
     }//GEN-LAST:event_buttonCosActionPerformed
 
     private void buttonTanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonTanActionPerformed
-        calcField.setText("");
         OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.tan( a ), (a, b) -> "tan(" + a + ")" );
-        tempFunc.setFramework( functions.get( index ) );
-        functions.set( index, tempFunc );
-        updateFunction();
+        oneArgumentButton( tempFunc );
     }//GEN-LAST:event_buttonTanActionPerformed
 
     private void buttonSecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSecActionPerformed
-        calcField.setText("");
         OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> 1f / Math.sin( a ), (a, b) -> "sec(" + a + ")" );
-        tempFunc.setFramework( functions.get( index ) );
-        functions.set( index, tempFunc );
-        updateFunction();
+        oneArgumentButton( tempFunc );
     }//GEN-LAST:event_buttonSecActionPerformed
 
     private void buttonCscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCscActionPerformed
-        calcField.setText("");
         OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> 1f / Math.cos( a ), (a, b) -> "csc(" + a + ")" );
-        tempFunc.setFramework( functions.get( index ) );
-        functions.set( index, tempFunc );
-        updateFunction();
+        oneArgumentButton( tempFunc );
     }//GEN-LAST:event_buttonCscActionPerformed
 
     private void buttonCotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCotActionPerformed
-        calcField.setText("");
         OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> 1f / Math.tan( a ), (a, b) -> "cot(" + a + ")" );
-        tempFunc.setFramework( functions.get( index ) );
-        functions.set( index, tempFunc );
-        updateFunction();
+        oneArgumentButton( tempFunc );
     }//GEN-LAST:event_buttonCotActionPerformed
 
     private void buttonAsinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAsinActionPerformed
-        calcField.setText("");
         OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.asin( a ), (a, b) -> "Asin(" + a + ")" );
-        tempFunc.setFramework( functions.get( index ) );
-        functions.set( index, tempFunc );
-        updateFunction();
+        oneArgumentButton( tempFunc );
     }//GEN-LAST:event_buttonAsinActionPerformed
 
     private void buttonAcosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcosActionPerformed
-        calcField.setText("");
         OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.acos( a ), (a, b) -> "Acos(" + a + ")" );
-        tempFunc.setFramework( functions.get( index ) );
-        functions.set( index, tempFunc );
-        updateFunction();
+        oneArgumentButton( tempFunc );
     }//GEN-LAST:event_buttonAcosActionPerformed
 
     private void buttonAtanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAtanActionPerformed
-        calcField.setText("");
         OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> Math.atan( a ), (a, b) -> "Atan(" + a + ")" );
-        tempFunc.setFramework( functions.get( index ) );
-        functions.set( index, tempFunc );
-        updateFunction();
+        oneArgumentButton( tempFunc );
     }//GEN-LAST:event_buttonAtanActionPerformed
 
     private void buttonAsecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAsecActionPerformed
-        calcField.setText("");
         OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> 1f / Math.asin( a ), (a, b) -> "Asec(" + a + ")" );
-        tempFunc.setFramework( functions.get( index ) );
-        functions.set( index, tempFunc );
-        updateFunction();
+        oneArgumentButton( tempFunc );
     }//GEN-LAST:event_buttonAsecActionPerformed
 
     private void buttonAcscActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcscActionPerformed
-        calcField.setText("");
         OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> 1f / Math.acos( a ), (a, b) -> "Acsc(" + a + ")" );
-        tempFunc.setFramework( functions.get( index ) );
-        functions.set( index, tempFunc );
-        updateFunction();
+        oneArgumentButton( tempFunc );
     }//GEN-LAST:event_buttonAcscActionPerformed
 
     private void buttonAcotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAcotActionPerformed
-        calcField.setText("");
         OneArgumentCalcFunctionFramework tempFunc = new OneArgumentCalcFunctionFramework( ( a, b ) -> 1f / Math.atan( a ), (a, b) -> "Acot(" + a + ")" );
-        tempFunc.setFramework( functions.get( index ) );
-        functions.set( index, tempFunc );
-        updateFunction();
+        
     }//GEN-LAST:event_buttonAcotActionPerformed
 
     private void buttonZoomInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonZoomInActionPerformed
@@ -699,6 +618,7 @@ public class GraphCalcGUI extends javax.swing.JFrame {
         functions.add( newfunction );
         index = 0;
         updateFunction();
+        calcField.setText("");
     }//GEN-LAST:event_buttonClearActionPerformed
 
     private void buttonColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonColorActionPerformed
@@ -721,6 +641,37 @@ public class GraphCalcGUI extends javax.swing.JFrame {
         mainGraphCalcPanel.repaint();
         System.out.println( index );
         functionLabel.setText( "<html><i>y</i> = " + functions.get( 0 ).getLabelText() + "</html>");
+    }
+    
+    private void oneArgumentButton( CalcFunctionFramework tempFunc ) {
+        calcField.setText("");
+        tempFunc.setFramework( functions.get( index ), 0 );
+        if( index >= 1 ) {
+            functions.get(index - 1).replaceFramework( functions.get( index ), tempFunc );
+            functions.set( index, tempFunc );
+        }
+        else {
+            functions.set( 0 , tempFunc);
+        }
+        updateFunction();
+    }
+    
+    private void twoArgumentButton( CalcFunctionFramework tempFunc ) {
+        calcField.setText("");
+        tempFunc.setFramework( functions.get( index ), 0 );
+        if( index >= 1 ) {
+            functions.get(index - 1).replaceFramework( functions.get( index ), tempFunc );
+            functions.set( index, tempFunc );
+        }
+        else {
+            functions.set( 0 , tempFunc);
+        }
+        CalcFunctionFramework tempfunc2 = new CalcFunctionFramework( (a, b) -> 0.0, (a, b) -> "0.0" );
+        tempFunc.setFramework( tempfunc2, 1 );
+        index++;
+        if( functions.size() > index ) functions.set( index, tempfunc2 );
+        else functions.add( tempfunc2 );
+        updateFunction();
     }
     
     /**
